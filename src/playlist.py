@@ -3,6 +3,8 @@ from date_parser import TimeParser
 from functools import reduce
 import random
 from prettytable import PrettyTable
+import json
+from collections import OrderedDict
 
 
 class Playlist:
@@ -80,6 +82,24 @@ class Playlist:
             table.add_row([song.artist, song.title, song.length])
         return table
 
+    def __dasherize(self):
+        return self.name.replace(' ', '-')
+
+    def save(self):
+        json_string = OrderedDict([['name', self.name],
+                                   ['repeat', self.repeat],
+                                   ['shuffle', self.shuffle]])
+        song_list = []
+        for song in self.songs:
+            song_list.append(OrderedDict([['title', song.title],
+                                          ['artist', song.artist],
+                                          ['album', song.album],
+                                          ['length', str(song.length)]]))
+        json_string['songs'] = song_list
+        with open('playlist-data/{}.json'
+                  .format(self.__dasherize()), 'w') as f:
+            json.dump(json_string, f, indent=4)
+
 
 def main():
     song1 = Song(title="Odin", artist="Manowar",
@@ -88,7 +108,7 @@ def main():
                  album="The Sons of Odina", length=TimeParser("3:44"))
     song3 = Song(title="Nothing else matters", artist="Metallica",
                  album="The Black Album", length=TimeParser('2:45'))
-    playlist = Playlist("my_playlist", False, True)  # shuffle is True
+    playlist = Playlist("my playlist", False, True)  # shuffle is True
     playlist.add_song(song1)
     playlist.add_song(song2)
     playlist.add_song(song3)
@@ -97,6 +117,7 @@ def main():
     # print(playlist.next_song())
     # print(playlist.next_song())
     print(playlist.pprint_playlist())
+    playlist.save()
 
 
 if __name__ == '__main__':

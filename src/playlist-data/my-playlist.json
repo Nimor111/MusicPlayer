@@ -1,0 +1,25 @@
+{
+    "name": "my playlist",
+    "repeat": false,
+    "shuffle": true,
+    "songs": [
+        {
+            "title": "Odin",
+            "artist": "Manowar",
+            "album": "The Sons of Odin",
+            "length": "3:44"
+        },
+        {
+            "title": "Odina",
+            "artist": "Nightwish",
+            "album": "The Sons of Odina",
+            "length": "3:44"
+        },
+        {
+            "title": "Nothing else matters",
+            "artist": "Metallica",
+            "album": "The Black Album",
+            "length": "2:45"
+        }
+    ]
+}
